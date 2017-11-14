@@ -1,0 +1,187 @@
+.validater-tips {
+	font-size:12px;
+    border: 1px solid #000;
+    border-radius: 3px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15);
+    
+	position: absolute;
+	opacity: 0;
+	transition: opacity 300ms;
+    z-index: 10;
+}
+.validater-tips-bg {
+    background-color:#EE4300;
+    background-image:none;
+    background-repeat: no-repeat;
+    border-radius: 2px;
+    color: #fff;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    white-space: nowrap;
+}
+.validater-tips.validater-tips-show {
+	display: block;
+	opacity: 1;
+	animation: validater-animation-right .3s;
+	-webkit-animation: validater-animation-right .3s;	/* Safari 和 Chrome */
+}
+@keyframes validater-animation-right{
+	0%   {transform:translate(0,0)}
+	10%  {transform:translate(-5px,0)}
+	30%  {transform:translate(5px,0)}
+	50%  {transform:translate(-5px,0)}
+	70%  {transform:translate(5px,0)}
+	90%  {transform:translate(-5px,0)}
+	100% {transform:translate(0,0)}
+}
+@-webkit-keyframes validater-animation-right {
+	0%   {-webkit-transform:translate(0,0)}
+	10%  {-webkit-transform:translate(-5px,0)}
+	30%  {-webkit-transform:translate(5px,0)}
+	50%  {-webkit-transform:translate(-5px,0)}
+	70%  {-webkit-transform:translate(5px,0)}
+	90%  {-webkit-transform:translate(-5px,0)}
+	100% {-webkit-transform:translate(0,0)}
+}
+.validater-relative {position: relative;}
+/**************** null ******************/
+.validater-tips-null.validater-tips {
+    border: 1px solid #EE4300;
+}
+.validater-tips-null .validater-tips-bg {
+    background-color:#EE4300;
+    color: #fff;
+}
+.validater-tips-null .validater-tips-arrow {
+    border-color:#EE4300;
+}
+.validater-tips-null .validater-tips-arrow-border {
+    border-color:#EE4300;
+}
+/**************** error ******************/
+.validater-tips-error.validater-tips,.validater-tips-diff.validater-tips {
+    border: 1px solid #F03;
+}
+.validater-tips-error .validater-tips-bg,.validater-tips-diff .validater-tips-bg {
+    background-color:#F03;
+    color: #fff;
+}
+.validater-tips-error .validater-tips-arrow,.validater-tips-diff .validater-tips-arrow {
+    border-color:#F03;
+}
+.validater-tips-error .validater-tips-arrow-border,.validater-tips-diff .validater-tips-arrow-border {
+    border-color:#F03;
+}
+/**************** pass ******************/
+.validater-tips-pass.validater-tips {
+    border: 1px solid #390;
+}
+.validater-tips-pass .validater-tips-bg {
+    background-color:#390;
+    color: #fff;
+}
+.validater-tips-pass .validater-tips-arrow {
+    border-color:#390;
+}
+.validater-tips-pass .validater-tips-arrow-border {
+    border-color:#390;
+}
+
+
+/**************** arrow ******************/
+.validater-tips-arrow {
+    border-width: 4px;
+	border-style:solid;
+    display: inline-block;
+    position: absolute;
+	z-index:5;
+}
+.validater-tips-arrow-border {
+    border-width: 5px;
+	border-style:solid;
+    display: inline-block;
+    position: absolute;
+}
+
+
+/*left*/
+.validater-tips-left{
+	margin-left:-10px;
+}
+.validater-tips-left .validater-tips-arrow {
+    border-right-color:transparent;
+	border-top-color:transparent;
+	border-bottom-color:transparent;
+	top: 50%;
+	margin-top: -4px;
+	right:-8px;
+}
+.validater-tips-left .validater-tips-arrow-border {
+    border-right-color:transparent;
+	border-top-color:transparent;
+	border-bottom-color:transparent;
+	top: 50%;
+	margin-top: -5px;
+    right:-10px;
+}
+/*right*/
+.validater-tips-right{
+	margin-left:10px;
+}
+.validater-tips-right .validater-tips-arrow {
+	border-left-color:transparent;
+	border-top-color:transparent;
+	border-bottom-color:transparent;
+	top: 50%;
+	margin-top: -4px;
+    left:-8px;
+}
+.validater-tips-right .validater-tips-arrow-border {
+    border-left-color:transparent;
+	border-top-color:transparent;
+	border-bottom-color:transparent;
+	top: 50%;
+	margin-top: -5px;
+    left:-10px;
+}
+/*top*/
+.validater-tips-top{
+	margin-top:-10px;
+}
+.validater-tips-top .validater-tips-arrow {
+    border-bottom-color:transparent;
+	border-left-color:transparent;
+	border-right-color:transparent;
+	left: 50%;
+	margin-left: -4px;
+    bottom: -8px;
+}
+.validater-tips-top .validater-tips-arrow-border {
+    border-bottom-color:transparent;
+	border-left-color:transparent;
+	border-right-color:transparent;
+	left: 50%;
+	margin-left: -5px;
+    bottom: -10px;
+}
+/*bottom*/
+.validater-tips-bottom{
+	margin-top:10px;
+}
+.validater-tips-bottom .validater-tips-arrow {
+    border-top-color:transparent;
+	border-left-color:transparent;
+	border-right-color:transparent;
+	left: 50%;
+	margin-left: -4px;
+    top: -8px;
+}
+.validater-tips-bottom .validater-tips-arrow-border {
+    border-top-color:transparent;
+	border-left-color:transparent;
+	border-right-color:transparent;
+	left: 50%;
+	margin-left: -5px;
+    top: -10px;
+}
