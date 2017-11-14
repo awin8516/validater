@@ -14,7 +14,7 @@ validater  表单验证插件
         <th>价格</th>
         <td>
             <div>                
-                <input type="text" id="summary-price" class="" autocomplete="off" name="price" placeholder="数字，例如：20" value="" valid-option="{
+                <input type="text" value="" valid-option="{
                     type:'/^(0|[1-9][0-9]{0,9})(\.[0-9]{1,2})?$/',                
                     null:'请输入,价格！',
                     error:'输入,有误！',
@@ -83,12 +83,14 @@ this.setting = {
 
 
 ##### Object function
-`reInit`  
-`verify`  
-`append`  
-`remove`  
-`clear`  
-`destroy`
+|Name |Description|
+|:--:|-----|
+|`reInit`|重新实例化|
+|`verify`|验证单项 @param (input, option)|
+|`append`|追加单项 @param (input)|
+|`remove`|删除单项 @param (input)|
+|`clear`|清除全部提示弹层|
+|`destroy`|销毁实例|
 
 ```javascript
 myValidater.verify(element, valid_option);
