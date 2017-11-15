@@ -333,7 +333,7 @@ _$.stop = function(element){
 	cancelAnimationFrame(element.AnimFrame);
 };
 _$.addEvent = function (element, ev, fn, param){    //element为要绑定事件的元素，ev为要绑定的事件，fn为绑定事件的函数
-	if(element.length > 1){
+	if(_$.isArray(element)){
 		for(var i = 0; i<element.length; i++){
 			_$.addEvent(element[i], ev, fn, param);
 		}
@@ -356,7 +356,7 @@ _$.addEvent = function (element, ev, fn, param){    //element为要绑定事件�
 	}
 };
 _$.removeEvent = function (element,ev){
-	if(element.length > 1){
+	if(_$.isArray(element)){
 		for(var i = 0; i<element.length; i++){
 			_$.removeEvent(element[i], ev);
 		}
@@ -378,7 +378,7 @@ _$.removeEvent = function (element,ev){
 	}
 };
 _$.dragDisabled = function (element){    //禁止图片拖拽
-	if(element.length > 1){
+	if(_$.isArray(element)){
 		for(var i = 0; i<element.length; i++){
 			_$.addEvent(element[i], 'dragstart', function(e){e.preventDefault();});
 		}

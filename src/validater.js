@@ -67,7 +67,6 @@ const _$ = require('./fun.js');
 		};
 
 		this.events = {
-			undefined: 'click',
 			text     : 'focusout',
 			password : 'focusout',
 			search   : 'focusout',
