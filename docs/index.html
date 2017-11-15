@@ -3,16 +3,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>validater-2.0.0</title>
-<link href="../src/style.css" rel="stylesheet">
+<!-- <link href="../src/style.css" rel="stylesheet"> -->
 <script src="jquery.1.11.3.min.js"></script>
 <!-- <script src="../src/fun.js"></script>
 <script src="../src/validater.js"></script> -->
 
 <script src="../dist/validater.min.js"></script>
 <style>
-.testform { width:500px;}
-.testform th,.testform td { white-space:nowrap; padding:10px;}
-.testform th { font-weight:normal; text-align:right;}
+.testform { width:500px;border-collapse: collapse;}
+.testform th,.testform td { white-space:nowrap; padding:8px 20px;border: 1px #eee solid;}
+.testform th { font-weight:normal; text-align:right;background: #fcfcfc}
 </style>
 </head>
 <body>
@@ -34,19 +34,19 @@
     <tr>
         <th>email</th>
         <td>
-        <span id="titlebox"><input type="text" id="summary-title" autocomplete="off" name="title" placeholder="email" ignore valid-option="{
-            type:'/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/',                
+        <span id="titlebox"><input type="text" id="summary-title" autocomplete="off" name="title" placeholder="email" valid-option="{
+            type:'email',                
             null:'请输入email！',
             error:'输入有误！',
             tips : 'false'
-        }"></span>
+        }"></span>  (不弹提示)
         </td>
     </tr>
     <tr>
         <th>描述</th>
         <td>
         <textarea id="summary-description"  placeholder="撰写250字以内的摘要" valid-option="{
-            type:'*',                
+            type:'*',    
             null:'请撰写250字以内的摘要！',
             error:'请撰写250字以内的摘要！'
         }"></textarea>
@@ -132,7 +132,7 @@
     <tr>
         <th>人数限制</th>
         <td>
-        <span>最小人数</span>
+        <span>最小人数</span><br>
         <input type="text" id="summary-limitmin" autocomplete="off" name="title" placeholder="数字，例如：2" valid-option="{
             type:'n>0',                
             null:'请输入最小人数！',
@@ -140,7 +140,7 @@
             errorLess:'必须小于最大人数！',
             less:'#summary-limitmax'
         }"><br><br>
-        <span>最大人数</span>
+        <span>最大人数</span><br>
         <input type="text" id="summary-limitmax" autocomplete="off" name="title" placeholder="数字，例如：20" valid-option="{
             type:'n>0',                
             null:'请输入最大人数！',
@@ -164,25 +164,35 @@
     <tr>
         <th>性别</th>
         <td>
-            <span>
-                <input id="genderMale" name="gender" type="radio" value="1" autocomplete="off">男
-                <input id="genderFamale" name="gender" type="radio" value="0" autocomplete="off">女
-                <input type="hidden" value="" valid-option="{
-                    type:'n',                
-                    null:'请选择性别！',
-                    error:'请选择性别！',
-                    target : 'parent'
-                }">
+            <span id="gender" valid-option="{
+                type:'checked',
+                null:'请选择性别！'
+            }">
+                <input name="gender" type="radio" value="1" autocomplete="off">男
+                <input name="gender" type="radio" value="0" autocomplete="off">女
             </span>
+        </td>
+    </tr>
+    <tr>
+        <th>爱好</th>
+        <td>
+            <span valid-option="{
+                type:'checked',
+                null:'至少选择一个爱好'
+            }">
+            <input type="checkbox" autocomplete="off" value="">电影
+            <input type="checkbox" autocomplete="off" value="">音乐
+            <input type="checkbox" autocomplete="off" value="">美术
+            <input type="checkbox" autocomplete="off" value="">舞蹈
+        </span>
         </td>
     </tr>
     <tr>
         <th>条款</th>
         <td>
             <input id="term" type="checkbox" autocomplete="off" value="" valid-option="{
-                type:'n>0',                
+                type:'checked',
                 null:'请同意条款！',
-                error:'请同意条款！',
                 target:'next'
             }"><span>同意条款</span>
         </td>
@@ -251,7 +261,6 @@
                     <input type="text" id="summary-new" class="" autocomplete="off" name="summary-nes" placeholder="新加项" value="" valid-option="{\
                         type:\'/^(0|[1-9][0-9]{0,9})(\.[0-9]{1,2})?$/\',\
                         null:\'请输入新加项\',\
-                        test:5,\
                         error:\'输入新加项有误！\'\
                     }">\
                 </td>\

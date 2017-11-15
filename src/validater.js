@@ -28,7 +28,7 @@ const _$ = require('./fun.js');
 		}">
 		******************************************************************************/
 		this.option = _$.extend({
-			type      : null,//验证规则 支持正则  @String
+			type      : null,//验证规则 | 规则模板 | 正则 |  radio/checkbox/ @String
 			tips      : that.setting.tips,//是否弹出提示气泡 @Boolean
 			target    : '',//提示泡定位依据 默认是追加在<input>之后； @String id or className | #password | .password | parent | prev | next
 			position  : that.setting.position,//提示气泡位置 @String
@@ -67,6 +67,7 @@ const _$ = require('./fun.js');
 		};
 
 		this.events = {
+			undefined: 'click',
 			text     : 'focusout',
 			password : 'focusout',
 			search   : 'focusout',
@@ -75,7 +76,7 @@ const _$ = require('./fun.js');
 			checkbox : 'change',
 			radio    : 'change',
 			textarea : 'focusout',
-			hidden   : 'change'//隐藏域需要前台改变值时调用$('#a').val(1).change()
+			hidden   : 'change'//隐藏域需要前台改变值时调用$('#a').val(1).change()， 配合隐藏域可实现复杂的该插件未提供模板的验证
 		};
 
 		this.createTips = function(input, target, option, valided){
@@ -101,12 +102,12 @@ const _$ = require('./fun.js');
 			_$.removeClass('validater-relative', target);
 			var tipsSize = {
 				width  : tips.clientWidth || tips.offsetWidth,
-				height : tips.clientHeight || tips.offsetHeight,
-			}
+				height : tips.clientHeight || tips.offsetHeight
+			};
 			var targetSize = {
 				width  : target.clientWidth || target.offsetWidth,
-				height : target.clientHeight || target.offsetHeight,
-			}
+				height : target.clientHeight || target.offsetHeight
+			};
 			var pos = {};
 			switch(option.position){
 				case 'left' : 
@@ -139,17 +140,18 @@ const _$ = require('./fun.js');
 			_$.css(tips, {
 				left:pos.left+'px',
 				top:pos.top+'px'
-			})
+			});
 			_$.addClass('validater-tips-show', tips);
 			that.tipsList.push(tips);
-		}
+		};
+
 		this.hideTips = function (tips) {
 			_$.removeClass('validater-tips-show', tips);
 			setTimeout(function(){
 				_$.remove(tips);
 				_$.delArray(tips, that.tipsList);
 			}, 300);
-		}
+		};
 		
 		this.getType = function (input) {
 			return input.getAttribute('type') || input.tagName.toLowerCase();
@@ -180,21 +182,36 @@ const _$ = require('./fun.js');
 		};
 
 		this.valid = function(input, option){
-			var types,resp,
-			types = /^\/.*\/$/.test(option.type) ? [option.type] : option.type.split('|'),
-			value   = input.value,
-			same = _$.getElement(option.same, that.self).value,
-			less    = parseInt(_$.getElement(option.less, that.self).value),
-			more = parseInt(_$.getElement(option.more, that.self).value);
-			types.forEach(function(n,i){
-				var reg = /^\/.*\/$/.test(n) ? new RegExp(eval(n)) : new RegExp(that.regExp[n]);
-				resp = value == '' ? 'null' :
-				!reg.exec(_$.trim(value)) ? 'error' :
-				same && value != same  ? 'errorSame' :
-				less && value >= less  ? 'errorLess' : 
-				more && value <= more  ? 'errorMore' : 'pass';
-				if(resp=='pass') return false;
-			})			
+			var resp;
+			if(option.type == 'checked'){
+				if(input.tagName == 'INPUT'){
+					resp = input.checked ? 'pass' : 'null';
+				}else{
+					var inputs = _$.getElement('input', input);
+					resp = 'null';
+					inputs.forEach(function(elem){
+						if(elem.checked == true){
+							resp = 'pass';
+							return false;
+						}
+					})
+				}
+			}else{
+				var types = /^\/.*\/$/.test(option.type) ? [option.type] : option.type.split('|'),
+				value = input.value,
+				same  = _$.getElement(option.same, that.self).value,
+				less  = parseInt(_$.getElement(option.less, that.self).value),
+				more  = parseInt(_$.getElement(option.more, that.self).value);
+				types.forEach(function(n,i){
+					var reg = /^\/.*\/$/.test(n) ? new RegExp(eval(n)) : new RegExp(that.regExp[n]);
+					resp =  value == ''               ? 'null' :
+							!reg.exec(_$.trim(value)) ? 'error' :
+							same && value != same     ? 'errorSame' :
+							less && value >= less     ? 'errorLess' : 
+							more && value <= more     ? 'errorMore' : 'pass';
+					if(resp=='pass') return false;
+				});
+			};
 			return resp;
 		};
 
@@ -202,7 +219,7 @@ const _$ = require('./fun.js');
 			option = _$.extend(  that.getOption(input), option  );
 			var target   = that.getTarget(input, option.target);
 			var valided  = that.valid(input, option);
-			var response = {status:true, valided:valided,target:target, option};
+			var response = {status:true, valided:valided, target:target, option:option};
 			if(valided == 'pass'){
 				var tipsbox = _$.next(target, '.validater-tips');
 				tipsbox && that.hideTips(tipsbox);
@@ -249,11 +266,21 @@ const _$ = require('./fun.js');
 			that.inputs = _$.getElement('[valid-option]', that.self);
 			that.submit = _$.getElement(that.setting.btnSubmit, that.self);
 			that.inputs.forEach(function(input){
-				var ev = that.events[that.getType(input)];				
-				_$.removeEvent(input, ev+'.verify');
-				_$.addEvent(input, ev+'.verify', function(){
-					that.verify(input);
-				});				
+				var ev = that.events[that.getType(input)];
+				if(ev){
+					_$.removeEvent(input, ev+'.verify');
+					_$.addEvent(input, ev+'.verify', function(){
+						that.verify(input);
+					});
+				}else{
+					var inputs = _$.getElement('input', input);
+					inputs.forEach(function(elem){
+						_$.removeEvent(elem, 'change.verify');
+						_$.addEvent(elem, 'change.verify', function(){
+							that.verify(input);
+						});
+					})
+				}
 			});
 			_$.removeEvent(that.submit, 'click.verifyForm');
 			_$.addEvent(that.submit, 'click.verifyForm', that.verifyForm);
@@ -282,7 +309,7 @@ const _$ = require('./fun.js');
 			_$.removeEvent(input, ev+'.verify');
 			input.setAttribute('valid-option-bak', input.getAttribute('valid-option'));
 			input.removeAttribute('valid-option');
-		}
+		};
 
 		this.clear = function(){
 			_$.remove(that.tipsList);
@@ -291,16 +318,16 @@ const _$ = require('./fun.js');
 
 		this.destroy = function(){
 			that.inputs.forEach(function(input){
-				var ev = that.events[that.getType(input)];
+				var ev = that.events[that.getType(input)];				
 				_$.removeEvent(input, ev+'.verify');
 			});
 			_$.removeEvent(that.submit, 'click.verifyForm');
-		}
-		;
+		};
+
 		this.init();
 
 		setting.onInit && setting.onInit(this);
 		
 		return this;
-	}
-})()
+	};
+})();

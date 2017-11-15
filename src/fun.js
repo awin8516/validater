@@ -333,37 +333,49 @@ _$.stop = function(element){
 	cancelAnimationFrame(element.AnimFrame);
 };
 _$.addEvent = function (element, ev, fn, param){    //element为要绑定事件的元素，ev为要绑定的事件，fn为绑定事件的函数
-	var evs = _$.formatClass(ev).split(' ');
-	if(evs.length > 1){
-		for(var i=0; i<evs.length; i++){
-			_$.addEvent(element, evs[i], fn);
+	if(element.length > 1){
+		for(var i = 0; i<element.length; i++){
+			_$.addEvent(element[i], ev, fn, param);
 		}
 	}else{
-		var ekey = ev.split('.');
-		var key = ekey.length > 1 ? ekey[1] :'#'+ev;
-		element[key] = function(){fn(param);}
-		if(element.attachEvent){
-			element.attachEvent("on" + ekey[0], element[key]);
+		var evs = _$.formatClass(ev).split(' ');
+		if(evs.length > 1){
+			for(var i=0; i<evs.length; i++){
+				_$.addEvent(element, evs[i], fn);
+			}
 		}else{
-			element.addEventListener(ekey[0], element[key],false);
+			var ekey = ev.split('.');
+			var key = ekey.length > 1 ? ekey[1] :'#'+ev;
+			element[key] = function(){fn(param);}
+			if(element.attachEvent){
+				element.attachEvent("on" + ekey[0], element[key]);
+			}else{
+				element.addEventListener(ekey[0], element[key],false);
+			}
 		}
-	};
+	}
 };
 _$.removeEvent = function (element,ev){
-	var evs = _$.formatClass(ev).split(' ');
-	if(evs.length > 1){
-		for(var i=0; i<evs.length; i++){
-			_$.addEvent(element,evs[i]);
+	if(element.length > 1){
+		for(var i = 0; i<element.length; i++){
+			_$.removeEvent(element[i], ev);
 		}
 	}else{
-		var ekey = ev.split('.');
-		var key = ekey.length > 1 ? ekey[1] :'#'+ev;
-		if(element.attachEvent){
-			element.detachEvent("on" + ekey[0], element[key]);
+		var evs = _$.formatClass(ev).split(' ');
+		if(evs.length > 1){
+			for(var i=0; i<evs.length; i++){
+				_$.addEvent(element,evs[i]);
+			}
 		}else{
-			element.removeEventListener(ekey[0], element[key],false);
-		}
-	};
+			var ekey = ev.split('.');
+			var key = ekey.length > 1 ? ekey[1] :'#'+ev;
+			if(element.attachEvent){
+				element.detachEvent("on" + ekey[0], element[key]);
+			}else{
+				element.removeEventListener(ekey[0], element[key],false);
+			}
+		};
+	}
 };
 _$.dragDisabled = function (element){    //禁止图片拖拽
 	if(element.length > 1){
