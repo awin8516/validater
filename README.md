@@ -24,6 +24,16 @@ validater  表单验证插件
         </td>
     </tr>
     <tr>
+        <th>email</th>
+        <td>
+        <input type="text" valid-option="{
+            type:'email',                
+            null:'请输入email！',
+            error:'输入有误！'            
+        }">
+        </td>
+    </tr>
+    <tr>
         <th colspan="2">
             <button class="valid-submit">确定</button>
         </th>
@@ -33,7 +43,7 @@ validater  表单验证插件
 ### valid-option
 |key |value|
 |:--:|-----|
-|type|验证规则 支持正则  @String|
+|type|验证规则  / 规则模板 / 正则 / radio / checkbox / @String
 |tips|是否弹出提示气泡 @Boolean
 |target|提示泡定位依据 默认是追加在<input>之后； @String id or className | #password | .password | parent | prev | next
 |position|提示气泡位置 @String
@@ -53,21 +63,6 @@ validater  表单验证插件
 ### 1. use javascript
 ```javascript
 var myValidater = new validater('.testform', {
-    btnSubmit:'.valid-submit',
-    position:'right', 
-    async : true,
-    onSuccess : function(data){
-        console.log(data);
-    },
-    onError: function(data){
-        console.log(data);
-    },
-    onVerifyEnd: function(data){
-        console.log(data);
-    }
-});
-
-this.setting = {
     tips        : true,//是否弹出提示气泡
     position    : 'right',//提示气泡位置
     translate   : [0, 0], //x,y偏移量
@@ -78,7 +73,7 @@ this.setting = {
     onSuccess   : null,//表单全部验证通过回调
     onError     : null,//表单验证未通过回调
     onVerifyEnd : null//单项验证后回调
-};
+});
 ```  
 
 
