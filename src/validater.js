@@ -9,7 +9,7 @@ const _$ = require('./fun.js');
 			if(!this.self.length) return false;
 		}else{
 			if(!this.self) return false;
-		}
+		};
 		this.tipsList = [];
 		//全局设置
 		this.setting = _$.extend({
