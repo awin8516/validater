@@ -232,14 +232,18 @@ const _$ = require('./fun.js');
 				that.setting.tips && option.tips && that.createTips(input, target, option, valided);
 				response.status = false;
 			};
-			!verifyForm && that.setting.onVerifyEnd && that.setting.onVerifyEnd({el : that.self, items : [
+			var data = {el : that.self, items : [
 				{
 					obj    : input,
 					target : target,
 					type   : valided,
 					tips   : option[valided]
 				}
-			]});
+			]}
+			if(!verifyForm){
+				that.setting.onVerifyEnd && that.setting.onVerifyEnd(data);
+				option.onVerifyEnd && option.onVerifyEnd(data);
+			}
 			return response;
 		};
 
