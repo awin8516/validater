@@ -199,7 +199,7 @@
     </tr>
     <tr>
         <th colspan="2">
-            <button class="valid-submit">确定</button>
+            <button id="submit" class="valid-submit">确定</button>
             <button id="btn-price" >点我单独验证价格</button>
             <button id="btn-clear" >点我清除所有弹出气泡</button>
             <button id="btn-ignore" >点我排除“价格”验证</button>
@@ -211,7 +211,7 @@
 <script>
     window.onload = function(){
         var myValidater = new validater('.testform', {
-            btnSubmit:'.valid-submit',
+            btnSubmit:'#submit',
             position:'right', 
             async : true,
             onSuccess : function(data){

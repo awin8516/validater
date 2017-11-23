@@ -4,6 +4,8 @@ const _$ = require('./fun.js');
 	window.validater = function(selecter, setting){
 		"use strict"
 		var that = this;
+		this.self   = _$.getElement(selecter);
+		if(!this.self || !this.self.length) return false;
 		this.tipsList = [];
 		//全局设置
 		this.setting = _$.extend({
@@ -260,8 +262,7 @@ const _$ = require('./fun.js');
 			};
 		};
 
-		this.init = function(){
-			that.self   = _$.getElement(selecter);
+		this.init = function(){			
 			that.inputs = _$.getElement('[valid-option]', that.self);
 			that.submit = _$.getElement(that.setting.btnSubmit, that.self);
 			that.inputs.forEach(function(input){
@@ -326,7 +327,5 @@ const _$ = require('./fun.js');
 		this.init();
 
 		setting.onInit && setting.onInit(this);
-		
-		return this;
 	};
 })();
