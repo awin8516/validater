@@ -5,7 +5,11 @@ const _$ = require('./fun.js');
 		"use strict"
 		var that = this;
 		this.self   = _$.getElement(selecter);
-		if(!this.self || !this.self.length) return false;
+		if(_$.isArray(this.self)){
+			if(!this.self.length) return false;
+		}else{
+			if(!this.self) return false;
+		}
 		this.tipsList = [];
 		//全局设置
 		this.setting = _$.extend({
