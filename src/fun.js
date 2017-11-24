@@ -50,6 +50,9 @@ _$.loadImage = function(src, callback, progress){
 				img.onload = function () {
 					check(srcArr[k]);
 				};
+				img.onerror = function () {
+					check(srcArr[k]);
+				};
 			};
 		})(i);
 	};//end for
@@ -79,6 +82,21 @@ _$.inArray = function(current ,array){
 	return false;
 };
 _$.delArray = function(val, arr){
+	if (!Array.prototype.indexOf) {
+		Array.prototype.indexOf = function (elt /*, from*/) {
+			var len = this.length >>> 0;
+			var from = Number(arguments[1]) || 0;
+			from = (from < 0) ? Math.ceil(from) : Math.floor(from);
+			if (from < 0)
+				from += len;
+			for (; from < len; from++) {
+				if (from in this &&
+					this[from] === elt)
+					return from;
+			}
+			return -1;
+		};
+	};
 	var index = arr.indexOf(val);
 	if (index > -1) {
 		arr.splice(index, 1);
@@ -370,9 +388,9 @@ _$.removeEvent = function (element,ev){
 			var ekey = ev.split('.');
 			var key = ekey.length > 1 ? ekey[1] :'#'+ev;
 			if(element.attachEvent){
-				element.detachEvent("on" + ekey[0], element[key]);
+				element[key] && element.detachEvent("on" + ekey[0], element[key]);
 			}else{
-				element.removeEventListener(ekey[0], element[key],false);
+				element[key] && element.removeEventListener(ekey[0], element[key],false);
 			}
 		};
 	}
@@ -426,6 +444,6 @@ _$.formatJSON = function(str){
 			.replace(/#M#/g, ':')
 			.replace(/\\/g, '\\\\');
 	return str;
-}
+};
 
 module.exports = _$; 

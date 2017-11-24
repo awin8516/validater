@@ -1,20 +1,25 @@
 const path = require('path');
-
 module.exports = {
   entry: './src/validater.js',
   output: {
     filename: 'validater.min.js',
     path: path.resolve(__dirname, 'dist')
   },
-	module:{
+  module: {
     loaders: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader:  'babel-loader',
-      },      
-     { test: /\.css$/, loader: 'style-loader!css-loader' },
-	 { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192'}
-    ],
+        loader: ['babel-loader']
+      },
+      {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader'
+      },
+      {
+        test: /\.(png|jpg)$/,
+        loader: 'url-loader?limit=8192'
+      }
+    ]
   }
 };

@@ -1,5 +1,30 @@
 ﻿require('./style.css');
 const _$ = require('./fun.js');
+if ( !Array.prototype.forEach ) {
+  Array.prototype.forEach = function forEach( callback, thisArg ) {
+    var T, k;
+    if ( this == null ) {
+      throw new TypeError( "this is null or not defined" );
+    }
+    var O = Object(this);
+    var len = O.length >>> 0;
+    if ( typeof callback !== "function" ) {
+      throw new TypeError( callback + " is not a function" );
+    }
+    if ( arguments.length > 1 ) {
+      T = thisArg;
+    }
+    k = 0;
+    while( k < len ) {
+      var kValue;
+      if ( k in O ) {
+        kValue = O[ k ];
+        callback.call( T, kValue, k, O );
+      }
+      k++;
+    }
+  };
+};
 (function(){
 	window.validater = function(selecter, setting){
 		"use strict"
@@ -9,7 +34,7 @@ const _$ = require('./fun.js');
 			if(!this.self.length) return false;
 		}else{
 			if(!this.self) return false;
-		};
+		}
 		this.tipsList = [];
 		//全局设置
 		this.setting = _$.extend({
@@ -29,21 +54,21 @@ const _$ = require('./fun.js');
 		/*****************************************************************************
 		<input type="text" valid-option="{
             type:'n>0',
-            null:'请输入！',
-            error:'输入有误！'
+            nullMsg:'请输入！',
+            errorMsg:'输入有误！'
 		}">
 		******************************************************************************/
 		this.option = _$.extend({
 			type      : null,//验证规则 | 规则模板 | 正则 |  radio/checkbox/ @String
 			tips      : that.setting.tips,//是否弹出提示气泡 @Boolean
-			target    : '',//提示泡定位依据 默认是追加在<input>之后； @String id or className | #password | .password | parent | prev | next
+			target    : '',//提示泡定位依据 默认是追加在<input>之后； @String id or className | #passMsgword | .passMsgword | parent | prev | next
 			position  : that.setting.position,//提示气泡位置 @String
 			translate : that.setting.translate, //偏移量 @Array  [10,10]
 			addclass  : that.setting.addclass,//提示气泡增加类名 @String	
-			pass      : '输入正确！',//@String
-			null      : '不能为空！',//@String
-			error     : '输入错误！',//@String
-			same      : '',// @String id or className | #password .password
+			passMsg   : '输入正确！',//@String
+			nullMsg   : '不能为空！',//@String
+			errorMsg  : '输入错误！',//@String
+			same      : '',// @String id or className | #passMsgword .passMsgword
 			errorSame : '两次密码输入不一致！',//@String for same
 			less      : '',// @String id or className | #more .more
 			errorLess : '输入值须小于最大数！',//@String  for less
@@ -69,12 +94,12 @@ const _$ = require('./fun.js');
 			"mobile"   : /^1[3|4|5|8]\d{9}$/,
 			"email"    : /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
 			"url"      : /^(\w+:\/\/)?\w+(\.\w+)+.*$/,
-			"password" : /^\w+$/
+			"passMsgword" : /^\w+$/
 		};
 
 		this.events = {
 			text     : 'focusout',
-			password : 'focusout',
+			passMsgword : 'focusout',
 			search   : 'focusout',
 			tel      : 'focusout',
 			select   : 'change',
@@ -190,13 +215,14 @@ const _$ = require('./fun.js');
 			var resp;
 			if(option.type == 'checked'){
 				if(input.tagName == 'INPUT'){
-					resp = input.checked ? 'pass' : 'null';
+					resp = input.checked ? 'passMsg' : 'nullMsg';
 				}else{
 					var inputs = _$.getElement('input', input);
-					resp = 'null';
+					if(!_$.isArray(inputs)) inputs = [inputs];
+					resp = 'nullMsg';
 					inputs.forEach(function(elem){
 						if(elem.checked == true){
-							resp = 'pass';
+							resp = 'passMsg';
 							return false;
 						}
 					})
@@ -209,12 +235,12 @@ const _$ = require('./fun.js');
 				more  = parseInt(_$.getElement(option.more, that.self).value);
 				types.forEach(function(n,i){
 					var reg = /^\/.*\/$/.test(n) ? new RegExp(eval(n)) : new RegExp(that.regExp[n]);
-					resp =  value == ''               ? 'null' :
-							!reg.exec(_$.trim(value)) ? 'error' :
+					resp =  value == ''               ? 'nullMsg' :
+							!reg.exec(_$.trim(value)) ? 'errorMsg' :
 							same && value != same     ? 'errorSame' :
 							less && value >= less     ? 'errorLess' : 
-							more && value <= more     ? 'errorMore' : 'pass';
-					if(resp=='pass') return false;
+							more && value <= more     ? 'errorMore' : 'passMsg';
+					if(resp=='passMsg') return false;
 				});
 			};
 			return resp;
@@ -225,7 +251,7 @@ const _$ = require('./fun.js');
 			var target   = that.getTarget(input, option.target);
 			var valided  = that.valid(input, option);
 			var response = {status:true, valided:valided, target:target, option:option};
-			if(valided == 'pass'){
+			if(valided == 'passMsg'){
 				var tipsbox = _$.next(target, '.validater-tips');
 				tipsbox && that.hideTips(tipsbox);
 			}else{
@@ -249,7 +275,7 @@ const _$ = require('./fun.js');
 
 		this.verifyForm = function(){
 			var status     = true;
-			var response = {el : that.self, items : []};
+			var response = {el : that.self, items : []};			
 			that.inputs.forEach(function(input) {
 				var _check = that.verify(input, null, true);
 				if(!_check.status){
@@ -272,6 +298,7 @@ const _$ = require('./fun.js');
 
 		this.init = function(){			
 			that.inputs = _$.getElement('[valid-option]', that.self);
+			if(!_$.isArray(that.inputs)) that.inputs = [that.inputs];
 			that.submit = _$.getElement(that.setting.btnSubmit, that.self);
 			that.inputs.forEach(function(input){
 				var ev = that.events[that.getType(input)];
@@ -282,6 +309,7 @@ const _$ = require('./fun.js');
 					});
 				}else{
 					var inputs = _$.getElement('input', input);
+					if(!_$.isArray(inputs)) inputs = [inputs];
 					inputs.forEach(function(elem){
 						_$.removeEvent(elem, 'change.verify');
 						_$.addEvent(elem, 'change.verify', function(){

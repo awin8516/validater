@@ -24,8 +24,8 @@
             <div>                
                 <input type="text" id="summary-price" class="" autocomplete="off" name="price" placeholder="数字，例如：20" value="" valid-option="{
                     type:'/^(0|[1-9][0-9]{0,9})(\.[0-9]{1,2})?$/',                
-                    null:'请输入,价格！',
-                    error:'输入,有误！',
+                    nullMsg:'请输入,价格！',
+                    errorMsg:'输入,有误！',
                     translate :'[100,0]'
                 }"> ￥/位
             </div>
@@ -36,8 +36,8 @@
         <td>
         <span id="titlebox"><input type="text" id="summary-title" autocomplete="off" name="title" placeholder="email" valid-option="{
             type:'email',                
-            null:'请输入email！',
-            error:'输入有误！',
+            nullMsg:'请输入email！',
+            errorMsg:'输入有误！',
             tips : 'false'
         }"></span>  (不弹提示)
         </td>
@@ -47,8 +47,8 @@
         <td>
         <textarea id="summary-description"  placeholder="撰写250字以内的摘要" valid-option="{
             type:'*',    
-            null:'请撰写250字以内的摘要！',
-            error:'请撰写250字以内的摘要！'
+            nullMsg:'请撰写250字以内的摘要！',
+            errorMsg:'请撰写250字以内的摘要！'
         }"></textarea>
         </td>
     </tr>
@@ -57,8 +57,8 @@
         <td>
         <select id="summary-duration" valid-option="{
             type:'float',                
-            null:'请选择用餐时长！',
-            error:'请选择用餐时长！'
+            nullMsg:'请选择用餐时长！',
+            errorMsg:'请选择用餐时长！'
         }">
             <option value="">请选择</option>
             <option value="1">1小时</option>
@@ -75,8 +75,8 @@
         <div id="area" style="display:inline-block">
             <select id="" valid-option="{
                 type:'n>0',                
-                null:'请选择省份！',
-                error:'请选择省份！',
+                nullMsg:'请选择省份！',
+                errorMsg:'请选择省份！',
                 target:'parent'
             }">
                 <option value="">请选择</option>
@@ -87,8 +87,8 @@
             <br><br>
             <select id="" valid-option="{
                 type:'n>0',                
-                null:'请选择城市！',
-                error:'请选择城市！',
+                nullMsg:'请选择城市！',
+                errorMsg:'请选择城市！',
                 target:'parent'
             }">
                 <option value="">请选择</option>
@@ -97,8 +97,8 @@
             <br><br>
             <select id="" valid-option="{
                 type:'n>0',                
-                null:'请选择区！',
-                error:'请选择区！',
+                nullMsg:'请选择区！',
+                errorMsg:'请选择区！',
                 target:'parent'
             }">
                 <option value="">请选择</option>
@@ -112,8 +112,8 @@
         <td>
         <input type="password" id="reg-password" placeholder="密码" valid-option="{
             type:'*6-18',                
-            null:'请输入密码！',
-            error:'密码长度为6-18位！'
+            nullMsg:'请输入密码！',
+            errorMsg:'密码长度为6-18位！'
         }">
         </td>
     </tr>
@@ -122,8 +122,8 @@
         <td>
         <input type="password" id="reg-password2" placeholder="确认密码" valid-option="{
             type:'*6-18',                
-            null:'请再次输入密码！',
-            error:'密码长度为6-18位！',
+            nullMsg:'请再次输入密码！',
+            errorMsg:'密码长度为6-18位！',
             errorSame:'两次输入不一致！',
             same:'#reg-password'
         }">
@@ -135,16 +135,16 @@
         <span>最小人数</span><br>
         <input type="text" id="summary-limitmin" autocomplete="off" name="title" placeholder="数字，例如：2" valid-option="{
             type:'n>0',                
-            null:'请输入最小人数！',
-            error:'输入有误！',
+            nullMsg:'请输入最小人数！',
+            errorMsg:'输入有误！',
             errorLess:'必须小于最大人数！',
             less:'#summary-limitmax'
         }"><br><br>
         <span>最大人数</span><br>
         <input type="text" id="summary-limitmax" autocomplete="off" name="title" placeholder="数字，例如：20" valid-option="{
             type:'n>0',                
-            null:'请输入最大人数！',
-            error:'输入有误！',
+            nullMsg:'请输入最大人数！',
+            errorMsg:'输入有误！',
             errorMore:'必须大于最小人数！',
             more:'#summary-limitmin'
         }">
@@ -155,8 +155,8 @@
         <td>
         <input id="mobile" type="text"  autocomplete="off" placeholder="手机号码" valid-option="{
             type:'mobile',                
-            null:'请输入手机号码！',
-            error:'输入有误！'
+            nullMsg:'请输入手机号码！',
+            errorMsg:'输入有误！'
         }">
         <button id="btn-send-code" >发送验证码</button>
         </td>
@@ -166,7 +166,7 @@
         <td>
             <span id="gender" valid-option="{
                 type:'checked',
-                null:'请选择性别！'
+                nullMsg:'请选择性别！'
             }">
                 <input name="gender" type="radio" value="1" autocomplete="off">男
                 <input name="gender" type="radio" value="0" autocomplete="off">女
@@ -178,7 +178,7 @@
         <td>
             <span valid-option="{
                 type:'checked',
-                null:'至少选择一个爱好'
+                nullMsg:'至少选择一个爱好'
             }">
             <input type="checkbox" autocomplete="off" value="">电影
             <input type="checkbox" autocomplete="off" value="">音乐
@@ -192,7 +192,7 @@
         <td>
             <input id="term" type="checkbox" autocomplete="off" value="" valid-option="{
                 type:'checked',
-                null:'请同意条款！',
+                nullMsg:'请同意条款！',
                 target:'next'
             }"><span>同意条款</span>
         </td>
@@ -239,9 +239,9 @@
                 position  : 'right',//提示气泡位置
                 translate : [10,30], //x,y偏移量
                 addclass  : 'new-pop',//提示气泡增加类名			
-                pass      : '输入正确....！',//@String
-                null      : '不能为空....！',//@String
-                error     : '输入错误....！'//@String                
+                passMsg   : '输入正确....！',//@String
+                nullMsg   : '不能为空....！',//@String
+                errorMsg  : '输入错误....！'//@String                
             });
         }
         
@@ -260,8 +260,8 @@
                 <td>\
                     <input type="text" id="summary-new" class="" autocomplete="off" name="summary-nes" placeholder="新加项" value="" valid-option="{\
                         type:\'/^(0|[1-9][0-9]{0,9})(\.[0-9]{1,2})?$/\',\
-                        null:\'请输入新加项\',\
-                        error:\'输入新加项有误！\'\
+                        nullMsg:\'请输入新加项\',\
+                        errorMsg:\'输入新加项有误！\'\
                     }">\
                 </td>\
             </tr>');
