@@ -65,15 +65,15 @@ if ( !Array.prototype.forEach ) {
 			position  : that.setting.position,//提示气泡位置 @String
 			translate : that.setting.translate, //偏移量 @Array  [10,10]
 			addclass  : that.setting.addclass,//提示气泡增加类名 @String	
-			passMsg   : '输入正确！',//@String
-			nullMsg   : '不能为空！',//@String
-			errorMsg  : '输入错误！',//@String
+			passMsg   : '输入正确！',// @String
+			nullMsg   : '不能为空！',// @String
+			errorMsg  : '输入错误！',// @String
 			same      : '',// @String id or className | #passMsgword .passMsgword
-			errorSame : '两次密码输入不一致！',//@String for same
+			errorSame : '两次密码输入不一致！',// @String for same
 			less      : '',// @String id or className | #more .more
-			errorLess : '输入值须小于最大数！',//@String  for less
+			errorLess : '输入值须小于最大数！',// @String  for less
 			more      : '',// @String id or className | #less .less
-			errorMore : '输入值须大于最小数！'//@String for more
+			errorMore : '输入值须大于最小数！'// @String for more
 		});
 
 		//规则模板，可自行追加
