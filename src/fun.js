@@ -1,4 +1,21 @@
 var _$ = {};
+window.requestAnimFrame = (function(){
+	return  window.requestAnimationFrame ||
+			window.webkitRequestAnimationFrame ||
+			window.mozRequestAnimationFrame ||
+			window.oRequestAnimationFrame ||
+			window.msRequestAnimationFrame ||
+			function( callback ){
+				window.setTimeout(callback, 1000 / 60);//定义每秒执行60次动画
+			};
+})();
+window.cancelAnimationFrame = window.cancelAnimationFrame
+		|| window.webkitCancelAnimationFrame
+		|| window.webkitCancelRequestAnimationFrame
+		|| window.mozCancelRequestAnimationFrame
+		|| window.oCancelRequestAnimationFrame
+		|| window.msCancelRequestAnimationFrame
+		|| clearTimeout;
 _$.extend = function(){
 	var extend,_extend,_isObject;
 	_isObject = function(o){ return Object.prototype.toString.call(o) === '[object Object]';}
@@ -107,7 +124,10 @@ _$.getElement = function(selecter, parent){
 	if(!selecter) return false;
 	parent = parent || document.body;
 	if(selecter.indexOf('#') !=-1){
-		return document.getElementById(selecter.replace('#',''))
+		return [document.getElementById(selecter.replace('#',''))];
+	};
+	if(selecter.toLowerCase()=='html'){
+		return document.getElementsByTagName('html');
 	};
 	var res = [];
 	if(_$.isArray(parent)){
@@ -137,7 +157,7 @@ _$.getElement = function(selecter, parent){
 			}
 		};
 	};
-	return res.length==1?res[0]:res;
+	return res;
 };
 _$.elem = function(html){
 	var a = document.createElement('div');
@@ -156,11 +176,28 @@ _$.children = function(parent, filter){
 		var arr = parent.childNodes;
 		for(var i=0;i<arr.length;i++){
 			if(arr[i].className!=undefined){
-				res.push(arr[i]);
+				if(filter){
+					if(filter.indexOf('.') !=-1){
+						if(_$.inArray(filter.replace('.',''), arr[i].className.split(' '))){
+							res.push(arr[i]);
+						};
+					}else if(filter.indexOf('[') !=-1){
+						if(arr[i].getAttribute(filter.replace(/\[|\]/g, '')) ){
+							res.push(arr[i]);
+						};
+					}else{
+						if(filter.toLowerCase() == arr[i].tagName.toLowerCase()){
+							res.push(arr[i]);
+						};
+					}
+				}else{
+					res.push(arr[i]);
+				}
+				
 			};
 		};
 	};
-	return res.length==1?res[0]:res;
+	return res;
 };
 _$.prev = function(element, classname){
 	if(!element) return false;
@@ -205,7 +242,7 @@ _$.clone = function(element, flag){
 	}else{
 		res = element.cloneNode(flag);
 	}
-	return res.length==1?res[0]:res;
+	return res;
 };
 _$.prepend = function (newChild, parent){
 	if(parent.firstChild){
@@ -336,7 +373,7 @@ _$.animate = function(element, option, speed, callback){
 	function setStyle(t){
 		element.AnimFrame = requestAnimFrame(setStyle);
 		for(var key in option){
-			if(element[key]*direction[key] >= option[key]){
+			if(element[key]*direction[key] >= option[key]*direction[key]){
 				cancelAnimationFrame(element.AnimFrame);
 				callback && callback();
 				break;
@@ -364,7 +401,9 @@ _$.addEvent = function (element, ev, fn, param){    //element为要绑定事件�
 		}else{
 			var ekey = ev.split('.');
 			var key = ekey.length > 1 ? ekey[1] :'#'+ev;
-			element[key] = function(){fn(param);}
+			element[key] = function(){
+				param ? fn.call(this, param, event) : fn.call(this, event);
+			};
 			if(element.attachEvent){
 				element.attachEvent("on" + ekey[0], element[key]);
 			}else{
@@ -372,6 +411,10 @@ _$.addEvent = function (element, ev, fn, param){    //element为要绑定事件�
 			}
 		}
 	}
+};
+_$.target = function(e){
+	e = e || window.event;
+	return e.target || e.srcElement;
 };
 _$.removeEvent = function (element,ev){
 	if(_$.isArray(element)){

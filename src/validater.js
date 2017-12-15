@@ -29,7 +29,7 @@ if ( !Array.prototype.forEach ) {
 	window.validater = function(selecter, setting){
 		"use strict"
 		var that = this;
-		this.self   = _$.getElement(selecter);
+		this.self   = _$.getElement(selecter)[0];
 		if(_$.isArray(this.self)){
 			if(!this.self.length) return false;
 		}else{
@@ -122,7 +122,7 @@ if ( !Array.prototype.forEach ) {
 								'<s class="validater-tips-arrow"></s>'+
 								'<s class="validater-tips-arrow-border"></s>'+
 							'</div>'+
-						'</div>');
+						'</div>')[0];
 			_$.after(tips, target);
 			_$.addClass('validater-relative', target);
 			var inputpos = {
@@ -197,7 +197,7 @@ if ( !Array.prototype.forEach ) {
 		this.getTarget = function(input, target){			
 			if(target){
 				if(target.indexOf('#') != -1 || target.indexOf('.') != -1){//id or class
-					target = _$.getElement(target);
+					target = _$.getElement(target)[0];
 				}else if(target == 'parent'){
 					target = input.parentNode;
 				}else if(target == 'prev'){
@@ -218,7 +218,6 @@ if ( !Array.prototype.forEach ) {
 					resp = input.checked ? 'passMsg' : 'nullMsg';
 				}else{
 					var inputs = _$.getElement('input', input);
-					if(!_$.isArray(inputs)) inputs = [inputs];
 					resp = 'nullMsg';
 					inputs.forEach(function(elem){
 						if(elem.checked == true){
@@ -230,9 +229,9 @@ if ( !Array.prototype.forEach ) {
 			}else{
 				var types = /^\/.*\/$/.test(option.type) ? [option.type] : option.type.split('|'),
 				value = input.value,
-				same  = _$.getElement(option.same, that.self).value,
-				less  = parseInt(_$.getElement(option.less, that.self).value),
-				more  = parseInt(_$.getElement(option.more, that.self).value);
+				same  = option.same ? _$.getElement(option.same, that.self)[0].value : null,
+				less  = option.less ? parseInt(_$.getElement(option.less, that.self)[0].value) : null,
+				more  = option.more ? parseInt(_$.getElement(option.more, that.self)[0].value) : null;
 				types.forEach(function(n,i){
 					var reg = /^\/.*\/$/.test(n) ? new RegExp(eval(n)) : new RegExp(that.regExp[n]);
 					resp =  value == ''               ? 'nullMsg' :
@@ -298,7 +297,6 @@ if ( !Array.prototype.forEach ) {
 
 		this.init = function(){			
 			that.inputs = _$.getElement('[valid-option]', that.self);
-			if(!_$.isArray(that.inputs)) that.inputs = [that.inputs];
 			that.submit = _$.getElement(that.setting.btnSubmit, that.self);
 			that.inputs.forEach(function(input){
 				var ev = that.events[that.getType(input)];
@@ -309,7 +307,6 @@ if ( !Array.prototype.forEach ) {
 					});
 				}else{
 					var inputs = _$.getElement('input', input);
-					if(!_$.isArray(inputs)) inputs = [inputs];
 					inputs.forEach(function(elem){
 						_$.removeEvent(elem, 'change.verify');
 						_$.addEvent(elem, 'change.verify', function(){
