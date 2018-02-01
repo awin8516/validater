@@ -16,8 +16,8 @@ validater  表单验证插件
             <div>                
                 <input type="text" value="" valid-option="{
                     type:'/^(0|[1-9][0-9]{0,9})(\.[0-9]{1,2})?$/',                
-                    null:'请输入,价格！',
-                    error:'输入,有误！',
+                    nullMsg:'请输入,价格！',
+                    errorMsg:'输入,有误！',
                     translate :'[100,0]'
                 }"> ￥/位
             </div>
@@ -28,8 +28,8 @@ validater  表单验证插件
         <td>
         <input type="text" valid-option="{
             type:'email',                
-            null:'请输入email！',
-            error:'输入有误！'            
+            nullMsg:'请输入email！',
+            errorMsg:'输入有误！'            
         }">
         </td>
     </tr>
@@ -58,6 +58,7 @@ validater  表单验证插件
 |errorLess|less 对应的提示文字  @String 如 ‘输入值须小于最大数！’
 |more|与另一选项对比是否大于另一选项  @String
 |errorMore|less 对应的提示文字  @String 如 ‘输入值须大于最小数！’
+|onVerifyEnd|单项验证后回调  @function
 
 ## script
 ### 1. use javascript

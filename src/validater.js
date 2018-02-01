@@ -73,7 +73,8 @@ if ( !Array.prototype.forEach ) {
 			less      : '',// @String id or className | #more .more
 			errorLess : '输入值须小于最大数！',// @String  for less
 			more      : '',// @String id or className | #less .less
-			errorMore : '输入值须大于最小数！'// @String for more
+			errorMore : '输入值须大于最小数！',// @String for more
+			onVerifyEnd : null//单项验证后回调
 		});
 
 		//规则模板，可自行追加

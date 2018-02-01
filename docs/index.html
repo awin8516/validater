@@ -241,7 +241,10 @@
                 addclass  : 'new-pop',//提示气泡增加类名			
                 passMsg   : '输入正确....！',//@String
                 nullMsg   : '不能为空....！',//@String
-                errorMsg  : '输入错误....！'//@String                
+                errorMsg  : '输入错误....！',//@String
+				onVerifyEnd: function(data){
+					console.log(data);
+				}
             });
         }
         
