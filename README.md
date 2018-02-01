@@ -43,7 +43,7 @@ validater  表单验证插件
 ### valid-option
 |key |value|
 |:--:|-----|
-|type|验证规则  / 规则模板 / 正则 / radio / checkbox / @String
+|type|验证规则  / 规则模板 支持正则 / 正则 / mail / mobile / @String
 |tips|是否弹出提示气泡 @Boolean
 |target|提示泡定位依据 默认是追加在<input>之后； @String id or className | #password | .password | parent | prev | next
 |position|提示气泡位置 @String
