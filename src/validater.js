@@ -59,7 +59,7 @@ if ( !Array.prototype.forEach ) {
 		}">
 		******************************************************************************/
 		this.option = _$.extend({
-			type      : null,//验证规则 | 规则模板 | 正则 |  radio/checkbox/ @String
+			type      : null,//验证规则 | 规则模板 | 正则 |  email/mobile/ @String
 			tips      : that.setting.tips,//是否弹出提示气泡 @Boolean
 			target    : '',//提示泡定位依据 默认是追加在<input>之后； @String id or className | #passMsgword | .passMsgword | parent | prev | next
 			position  : that.setting.position,//提示气泡位置 @String
