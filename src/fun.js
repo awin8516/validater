@@ -401,7 +401,8 @@ _$.addEvent = function (element, ev, fn, param){    //element为要绑定事件�
 		}else{
 			var ekey = ev.split('.');
 			var key = ekey.length > 1 ? ekey[1] :'#'+ev;
-			element[key] = function(){
+			element[key] = function(event){
+				event = event || window.event;
 				param ? fn.call(this, param, event) : fn.call(this, event);
 			};
 			if(element.attachEvent){
