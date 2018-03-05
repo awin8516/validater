@@ -92,7 +92,7 @@ if ( !Array.prototype.forEach ) {
 			"s"        : /^[\u4E00-\u9FA5\uf900-\ufa2d\w\.\s]+$/,
 			"s6-18"    : /^[\u4E00-\u9FA5\uf900-\ufa2d\w\.\s]{6,18}$/,
 			"post"     : /^[0-9]{6}$/,
-			"mobile"   : /^1[3|4|5|8]\d{9}$/,
+			"mobile"   : /^1[3|4|5|7|8]\d{9}$/,
 			"email"    : /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
 			"url"      : /^(\w+:\/\/)?\w+(\.\w+)+.*$/,
 			"passMsgword" : /^\w+$/
@@ -318,6 +318,7 @@ if ( !Array.prototype.forEach ) {
 			});
 			_$.removeEvent(that.submit, 'click.verifyForm');
 			_$.addEvent(that.submit, 'click.verifyForm', that.verifyForm);
+			setting.onInit && setting.onInit(this);
 		};
 
 		this.reInit = function(){
@@ -359,7 +360,5 @@ if ( !Array.prototype.forEach ) {
 		};
 
 		this.init();
-
-		setting.onInit && setting.onInit(this);
 	};
 })();

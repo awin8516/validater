@@ -49,9 +49,9 @@ validater  表单验证插件
 |position|提示气泡位置 @String
 |translate|偏移量 @Array  [10,10]
 |addclass|提示气泡增加类名 @String	
-|pass|验证通过提示文字  @String
-|null|验证为空提示文字  @String
-|error|验证不通过提示文字  @String
+|passMsg|验证通过提示文字  @String
+|nullMsg|验证为空提示文字  @String
+|errorMsg|验证不通过提示文字  @String
 |same| 与另一选项对比是否一致，如重复密码@String id or className | #password .password
 |errorSame|same 对应的提示文字  @String 如 ‘两次密码输入不一致’
 |less|与另一选项对比是否小于另一选项  @String
