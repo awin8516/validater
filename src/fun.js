@@ -449,12 +449,10 @@ _$.dragDisabled = function (element){    //禁止图片拖拽
 	};
 };
 _$.formatJSON = function(str){
-	str   =  str.replace(/\s/g, '')
-				.replace(/\n/g, '')
+	str   =  str.replace(/\n/g, '').replace(/:\s+/g, ':')
 				.replace(/^\{(.*)\}$/, '\{"$1"\}');
-				
 	var temp = str.match(/:"(.*?)",|:"(.*?)"|:'(.*?)',|:'(.*?)'/g);			
-	str   =  str.replace(/:"(.*?)",|:"(.*?)"|:'(.*?)',|:'(.*?)'/g, '@@@@');
+	str   =  str.replace(/\s/g, '').replace(/:"(.*?)",|:"(.*?)"|:'(.*?)',|:'(.*?)'/g, '@@@@');
 	for(i=0; i<temp.length; i++){
 		var v =  temp[i].replace(':', '#first#')
 						.replace(/,$/, '#last#')
